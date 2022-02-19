@@ -8,4 +8,4 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, "server/static")));
 
-app.listen(8080);
+app.listen(Number(process.env.PORT));
