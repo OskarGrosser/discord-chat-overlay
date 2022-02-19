@@ -9,7 +9,7 @@ body {
 }
 
 code {
-  padding: .15em;
+  padding-inline: .15em;
   border: 1px solid #888;
   border-radius: .2em;
   display: inline-block;
@@ -54,6 +54,7 @@ ol, ul {
 pre>code {
   --code-green: #162;
   --code-orange: #841;
+  padding: .15em;
   display: block;
 }
 pre.c-dark>code {
