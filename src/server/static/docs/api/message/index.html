@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Message API</title>
+    <meta name="description" content="Messages received via a Discord bot may be posted to this API.">
+    <link rel="stylesheet" href="/styles/default.css">
+    <style>
+fieldset {
+  display: inline-block;
+  float: revert;
+}
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Message API</h1>
+
+      <p>
+        The <dfn>Message API</dfn> works in combination with the <a href="/chat">Chat Frontend</a>.
+        Requests sent to this API will be forwarded to <code>/chat</code>, where they will be handled appropriately.
+      </p>
+
+      <fieldset>
+        <legend>Table of content</legend>
+        <ol>
+          <li><a href="/docs/api/message/new-message.html">New messages</a></li>
+          <li><a href="/docs/api/message/edit-message.html">Edits to messages</a></li>
+          <li><a href="/docs/api/message/delete-message.html">Deletions of messages</a></li>
+        </ol>
+      </fieldset>
+
+      <p>For all requests to this API, the following must be:</p>
+      <ul>
+        <li>Method: <code>POST</code></li>
+        <li>Content-Type: <code>application/json</code></li>
+        <li>
+          Body:
+<pre class="c-dark"><code>{
+  id: <span class="c-green">number</span>;
+  type: <span class="c-orange">"new"</span>|<span class="c-orange">"edit"</span>|<span class="c-orange">"delete"</span>;
+  content?: <span class="c-green">any</span>;
+}</code></pre>
+        </li>
+      </ul>
+
+      <p>The sent type determines the content, if at all. More on the content in the following chapters.</p>
+    </main>
+  </body>
+</html>
