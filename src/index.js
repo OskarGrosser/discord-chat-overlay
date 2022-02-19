@@ -1,4 +1,5 @@
 import express from "express";
+import http from "http";
 import path from "path";
 import { fileURLToPath } from "url";
 import * as middleware from "./server/middleware.js";
@@ -6,6 +7,7 @@ import * as middleware from "./server/middleware.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
+const server = http.createServer(app);
 
 app.use(express.static(path.join(__dirname, "server/static")));
 app.use(middleware.parseJson);
@@ -30,4 +32,6 @@ app.use("/api/message", function(req, res) {
   res.sendStatus(202);
 });
 
-app.listen(Number(process.env.PORT));
+server.listen(Number(process.env.PORT), () => {
+  console.log("Listening on " + process.env.PORT);
+});
