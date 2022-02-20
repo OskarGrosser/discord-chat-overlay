@@ -16,11 +16,36 @@ const bot = new Client({
 
 app.use(express.static(path.join(__dirname, "server/static")));
 
-bot.on("messageCreate", message => {});
-bot.on("messageUpdate", (oldMessage, newMessage) => {});
-bot.on("messageDelete", message => {});
+bot.on("messageCreate", message => {
+  if (["DEFAULT", "REPLY"].includes(message.type)) {
+    io.of("/message").emit("messageCreate", simplifyMessage(message));
+  }
+});
+bot.on("messageUpdate", (oldMessage, newMessage) => {
+  if (["DEFAULT", "REPLY"].includes(message.type)) {
+    io.of("/message").emit("messageUpdate", simplifyMessage(oldMessage), simplifyMessage(newMessage));
+  }
+});
+bot.on("messageDelete", message => {
+  if (["DEFAULT", "REPLY"].includes(message.type)) {
+    io.of("/message").emit("messageDelete", { id: message.id });
+  }
+});
 
 server.listen(Number(process.env.PORT), () => {
-  console.log("Listening on " + process.env.PORT);
+  console.log(`Listening on ${process.env.PORT}`);
 });
 bot.login(process.env.BOT_TOKEN);
+
+function simplifyMessage(message) {
+  return {
+    id: message.id,
+    member: {
+      displayAvatarUrl: message.member.displayAvatarURL(),
+      displayHexColor: message.member.displayHexColor,
+      displayName: message.member.displayName
+    },
+    content: message.content,
+    cleanContent: message.cleanContent
+  };
+}
