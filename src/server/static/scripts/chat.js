@@ -7,10 +7,10 @@ const messages = document.querySelector("output");
 socket.on("messageCreate", message => {
   const elMessage = new MessageElement();
   elMessage.id = `id-${message.id}`;
-  elMessage.author = message.author.username;
+  elMessage.author = message.member.displayName;
   elMessage.message = message.cleanContent;
-  if (message.member.displayHexColor) {
-    elMessage.style.cssText = `--color:${message.member.displayHexColor};`;
+  if (message.member.displayHexColor && message.member.displayHexColor !== "#000000") {
+    elMessage.style.cssText = `--author-color:${message.member.displayHexColor};`;
   }
 
   messages.append(elMessage);
