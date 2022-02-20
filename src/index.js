@@ -17,17 +17,20 @@ const bot = new Client({
 app.use(express.static(path.join(__dirname, "server/static")));
 
 bot.on("messageCreate", message => {
-  if (["DEFAULT", "REPLY"].includes(message.type)) {
+  if (process.env.CHANNEL_ID === message.channelId
+      && ["DEFAULT", "REPLY"].includes(message.type)) {
     io.of("/message").emit("messageCreate", simplifyMessage(message));
   }
 });
 bot.on("messageUpdate", (oldMessage, newMessage) => {
-  if (["DEFAULT", "REPLY"].includes(message.type)) {
+  if (process.env.CHANNEL_ID === newMessage.channelId
+      && ["DEFAULT", "REPLY"].includes(newMessage.type)) {
     io.of("/message").emit("messageUpdate", simplifyMessage(oldMessage), simplifyMessage(newMessage));
   }
 });
 bot.on("messageDelete", message => {
-  if (["DEFAULT", "REPLY"].includes(message.type)) {
+  if (process.env.CHANNEL_ID === message.channelId
+      && ["DEFAULT", "REPLY"].includes(message.type)) {
     io.of("/message").emit("messageDelete", { id: message.id });
   }
 });
