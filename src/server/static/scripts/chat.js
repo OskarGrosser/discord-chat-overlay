@@ -6,10 +6,11 @@ const messages = document.querySelector("output");
 
 socket.on("messageCreate", message => {
   const elMessage = new MessageElement();
-  elMessage.id = `id-${message.id}`;
+  elMessage.id = `id-${message.id}`; // In CSS, IDs starting with numbers are disallowed; this circumvents the issue
   elMessage.author = message.member.displayName;
   elMessage.message = message.cleanContent;
   if (message.member.displayHexColor && message.member.displayHexColor !== "#000000") {
+    // Set author-color if non-default
     elMessage.style.cssText = `--author-color:${message.member.displayHexColor};`;
   }
 
@@ -25,7 +26,6 @@ socket.on("messageCreate", message => {
 socket.on("messageUpdate", (oldMessage, newMessage) => {
   const elMessage = findMessage(newMessage.id);
   if (elMessage) {
-    elMessage.author = newMessage.member.displayName;
     elMessage.message = newMessage.cleanContent;
     elMessage.animate(
       [
@@ -39,6 +39,7 @@ socket.on("messageUpdate", (oldMessage, newMessage) => {
 socket.on("messageDelete", message => {
   const elMessage = findMessage(message.id);
   if (elMessage) {
+    // Empty animation as placeholder; to customize, fill
     elMessage.animate([], { duration: 0 }).finished.then(() => elMessage.replaceWith());
   }
 });
